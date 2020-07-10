@@ -4,19 +4,8 @@ import {Form, Button, Container,Row, Col, InputGroup, FormControl} from 'react-b
 function SignUp(){
     const [email, setEmail] = useState('');
     const [emailCode, setEmailCode] = useState(null);
-    const [pw, setPW] = useState('');
-    const [pwConfirm, setPwConfirm] = useState('');
     const [nickName, setNickName] = useState('');
 
-    function inputPassword(e){
-        setPW(e.target.value);
-        console.log(pw);
-    }
-
-    function inputPwConfirm(e){
-        setPwConfirm(e.target.value);
-        console.log(pwConfirm);
-    }
 
     function inputEmail(e){
         setEmail(e.target.value);
@@ -68,20 +57,6 @@ function SignUp(){
                         <h4>Email Confirm Code</h4>
                     </Form.Label>
                     <Form.Control type="number" placeholder="Email Confirm Code" size="lg" onChange={inputEmailCode}/>
-                </Form.Group>
-
-                <Form.Group controlId="formBasicPassword">
-                    <Form.Label>
-                        <h4>Password</h4>
-                    </Form.Label>
-                    <Form.Control type="password" placeholder="Password" size="lg" onChange={inputPassword}/>
-                </Form.Group>
-
-                <Form.Group controlId="formBasicPassword">
-                    <Form.Label>
-                        <h4>Password Confirm</h4>
-                    </Form.Label>
-                    <Form.Control type="password" placeholder="Password Confirm" size="lg" onChange={inputPwConfirm}/>
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassword">
