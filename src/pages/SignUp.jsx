@@ -71,7 +71,7 @@ function SignUp(){
 
                 <Form.Group controlId="formBasicPassword">
                     <Form.Label>
-                        <h4>닉네임</h4>
+                        <h4>마인크래프트 닉네임</h4>
                     </Form.Label>
                     <Form.Control type="text" placeholder="닉네임" size="lg" onChange={inputNickName}/>
                 </Form.Group>
