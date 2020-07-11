@@ -6,7 +6,6 @@ function SignUp(){
     const [emailCode, setEmailCode] = useState(null);
     const [nickName, setNickName] = useState('');
 
-
     function inputEmail(e){
         setEmail(e.target.value);
         console.log(email);
@@ -23,25 +22,26 @@ function SignUp(){
     }
 
     function SignUp(form){
+        
     }
 
     return(
         <Container>
             <Row className="justify-content-center">
                 <Col xs="auto">
-                    <h1>SignUp</h1>
+                    <h1>계정 등록</h1>
                 </Col>
             </Row>
             <Form>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>
-                        <h4>Email Address</h4>
+                        <h4>이메일 주소</h4>
                     </Form.Label>
                     <Form.Row>
-                        <Col xs={6}>
-                            <Form.Control size="lg" type="email" placeholder="Enter email" onChange={inputEmail}/>
+                        <Col md={5}>
+                            <Form.Control size="lg" type="email" placeholder="이메일" onChange={inputEmail}/>
                         </Col>
-                        <Col xs={6}>
+                        <Col md={4} className='mt-2 mt-md-0'>
                             <InputGroup size="lg">
                                 <InputGroup.Prepend>
                                     <InputGroup.Text>@</InputGroup.Text>
@@ -49,25 +49,35 @@ function SignUp(){
                                 <FormControl value="kumoh.ac.kr" disabled/>
                             </InputGroup>
                         </Col>
+                        <Col md={3} className='mt-2 mt-md-0'>
+                            <Button variant="outline-primary" size="lg" block>인증번호 보내기</Button>
+                        </Col>
                     </Form.Row>
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassword">
                     <Form.Label>
-                        <h4>Email Confirm Code</h4>
+                        <h4>인증번호 확인</h4>
                     </Form.Label>
-                    <Form.Control type="number" placeholder="Email Confirm Code" size="lg" onChange={inputEmailCode}/>
+                    <Form.Row>
+                        <Col xs={6}>
+                            <Form.Control type="number" placeholder="인증번호" size="lg" onChange={inputEmailCode}/>
+                        </Col>
+                        <Col xs={6}>
+                            <Button variant="outline-primary" size="lg" block>인증번호 확인</Button>
+                        </Col>
+                    </Form.Row>
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassword">
                     <Form.Label>
-                        <h4>Nick Name</h4>
+                        <h4>닉네임</h4>
                     </Form.Label>
-                    <Form.Control type="text" placeholder="Nick Name" size="lg" onChange={inputNickName}/>
+                    <Form.Control type="text" placeholder="닉네임" size="lg" onChange={inputNickName}/>
                 </Form.Group>
 
                 <Button variant="outline-success" size="lg" block onClick={SignUp}>
-                    SignUp
+                    등록하기
                 </Button>
             </Form>
         </Container>
