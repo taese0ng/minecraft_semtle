@@ -1,6 +1,8 @@
 import React,{useState} from 'react';
 import {Form, Button, Container,Row, Col, InputGroup, FormControl,Collapse} from 'react-bootstrap';
 import PublicModal from '../components/PublicModal';
+import axios from 'axios'
+import {ip} from '../key.js';
 
 function SignUp(){
     const [email, setEmail] = useState('');
@@ -28,12 +30,34 @@ function SignUp(){
     }
 
     function confirmCode(){
-        if(parseInt(emailCode) === 123){
-            setConfirmEmail(true);
-        }
-        else{
+        axios.post(`${ip}/input-code`,{
+            code: emailCode,
+            email: email+"@kumoh.ac.kr"
+        }).then(res=>{
+            console.log(res);
+            if(res.data.status==="success"){
+                setConfirmEmail(true);
+            }
+            else{
+                setConfirmEmail(false);
+                setNickName('');
+            }
+        }).catch(err=>{
+            console.log(err);
             setConfirmEmail(false);
-        }
+            setNickName('');
+        });
+    }
+
+    function sendCode(){
+        axios.post(`${ip}/mail-send`,
+        {
+            email : email+'@kumoh.ac.kr'
+        }).then(res=>{
+            console.log(res);
+        }).catch(err=>{
+            console.log(err);
+        })
     }
 
     function clickSignUp(){
@@ -46,6 +70,19 @@ function SignUp(){
             setModalTitle("닉네임 오류!");
             setModalBody("닉네임이 비어있습니다.");
             setShow(true);
+        }
+        else{
+            axios.post(`${ip}/input-nick`,{
+                email: email+"@kumoh.ac.kr",
+                nick: nickName
+            }).then(res=>{
+                console.log(res);
+                if(res.data.status === "success"){
+                    setModalTitle("등록 성공!");
+                    setModalBody("계정 등록에 성공하였습니다! 즐거운 플레이하세요!");
+                    setShow(true);
+                }
+            }).catch(err=>console.log(err));
         }
     }
 
@@ -80,7 +117,12 @@ function SignUp(){
                                 </InputGroup>
                             </Col>
                             <Col md={3} className='mt-2 mt-md-0'>
-                                <Button variant="outline-primary" size="lg" block>인증번호 보내기</Button>
+                                <Button 
+                                variant="outline-primary" 
+                                size="lg" 
+                                block
+                                onClick={sendCode}>인증번호 받기
+                                </Button>
                             </Col>
                         </Form.Row>
                     </Form.Group>
