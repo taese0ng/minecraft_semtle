@@ -5,6 +5,7 @@ import axios from 'axios'
 import {ip} from '../key.js';
 
 function SignUp(){
+    const [timeOut, setTimeOut] = useState('00:00');
     const [email, setEmail] = useState('');
     const [emailCode, setEmailCode] = useState(null);
     const [nickName, setNickName] = useState('');
@@ -16,17 +17,17 @@ function SignUp(){
 
     function inputEmail(e){
         setEmail(e.target.value);
-        console.log(email);
+        // console.log(email);
     }
 
     function inputEmailCode(e){
         setEmailCode(e.target.value);
-        console.log(emailCode);
+        // console.log(emailCode);
     }
 
     function inputNickName(e){
         setNickName(e.target.value);
-        console.log(nickName);
+        // console.log(nickName);
     }
 
     function confirmCode(){
@@ -37,10 +38,16 @@ function SignUp(){
             console.log(res);
             if(res.data.status==="success"){
                 setConfirmEmail(true);
+                setModalTitle("인증 성공!");
+                setModalBody("인증번호 인증에 성공하였습니다. 닉네임을 설정해주세요!");
+                setShow(true);
             }
             else{
                 setConfirmEmail(false);
                 setNickName('');
+                setModalTitle("인증 실패!");
+                setModalBody("인증번호 인증에 실패하였습니다. 입력란을 확인하세요!");
+                setShow(true);
             }
         }).catch(err=>{
             console.log(err);
@@ -55,7 +62,32 @@ function SignUp(){
             email : email+'@kumoh.ac.kr'
         }).then(res=>{
             console.log(res);
+            if(res.data.status === "success"){
+                // let time = parseInt(res.data.counter) * 60;
+                setModalTitle("인증번호 발송 성공!");
+                setModalBody("이메일에 인증번호를 전송하였습니다. 인증하세요!");
+                setShow(true);
+                let time = 6
+                var startTime = setInterval(function(){
+                    if(time===0){
+                        clearInterval(startTime);
+                        setModalTitle("인증시간 초과!");
+                        setModalBody("인증시간이 초과되었습니다! 인증요청을 다시하세요!");
+                        setShow(true);
+                    }
+                    setTimeOut(`${parseInt(time/60) < 10 ? '0'+parseInt(time/60) : parseInt(time/60)}:${time%60 < 10 ?'0'+time%60: time%60}`);
+                    time--;
+                },1000);
+            }
+            else{
+                setModalTitle("인증번호 발송 실패!");
+                setModalBody("인증번호 발송에 실패하였습니다. 입력란을 확인하세요!");
+                setShow(true);
+            }
         }).catch(err=>{
+            setModalTitle("인증번호 발송 실패!");
+            setModalBody("인증번호 발송에 실패하였습니다. 입력란을 확인하세요!");
+            setShow(true);
             console.log(err);
         })
     }
@@ -82,7 +114,17 @@ function SignUp(){
                     setModalBody("계정 등록에 성공하였습니다! 즐거운 플레이하세요!");
                     setShow(true);
                 }
-            }).catch(err=>console.log(err));
+                else{
+                    setModalTitle("등록 실패!");
+                    setModalBody("KUMO CRAFT 등록에 실패하였습니다. 다시 확인해보세요!");
+                    setShow(true);
+                }
+            }).catch(err=>{
+                console.log(err);
+                setModalTitle("등록 실패!");
+                setModalBody("KUMO CRAFT 등록에 실패하였습니다. 다시 확인해보세요!");
+                setShow(true);
+            });
         }
     }
 
@@ -93,7 +135,7 @@ function SignUp(){
                 show={show} 
                 title={modalTitle}
                 body={modalBody}/>
-            <Container>
+            <Container className="mt-4">
                 <Row className="justify-content-center">
                     <Col xs="auto">
                         <h1>계정 등록</h1>
@@ -102,7 +144,7 @@ function SignUp(){
                 <Form>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>
-                            <h4>이메일 주소</h4>
+                            <h3>이메일 주소</h3>
                         </Form.Label>
                         <Form.Row>
                             <Col md={5}>
@@ -129,13 +171,16 @@ function SignUp(){
 
                     <Form.Group controlId="formBasicPassword">
                         <Form.Label>
-                            <h4>인증번호 확인</h4>
+                            <h3>인증번호 확인</h3>
                         </Form.Label>
                         <Form.Row>
-                            <Col xs={6}>
+                            <Col xs={10} md={6}>
                                 <Form.Control type="number" placeholder="인증번호" size="lg" onChange={inputEmailCode}/>
                             </Col>
-                            <Col xs={6}>
+                            <Col xs={2} className='my-auto text-center'>
+                                <h5>{timeOut}</h5>
+                            </Col>
+                            <Col xs={12} md={4} className="mt-2 mt-md-0">
                                 <Button variant="outline-primary" size="lg" block onClick={confirmCode}>인증번호 확인</Button>
                             </Col>
                         </Form.Row>
@@ -144,7 +189,7 @@ function SignUp(){
                     <Collapse in={confirmEmail}>
                         <Form.Group controlId="formBasicPassword">
                             <Form.Label>
-                                <h4>마인크래프트 닉네임</h4>
+                                <h3>마인크래프트 닉네임</h3>
                             </Form.Label>
                             <Form.Control type="text" placeholder="닉네임" size="lg" onChange={inputNickName}/>
                         </Form.Group>

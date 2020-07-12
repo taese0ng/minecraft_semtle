@@ -29,6 +29,8 @@
     top: 50%;
     transform: translate(-50%, -50%);
     width: 90%;
-    height: 700px;
+    height: 85%;
+    max-height: 700px;
+    overflow: auto;
     background-color: rgba(255, 255, 255, 0.795);
 }
