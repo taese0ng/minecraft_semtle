@@ -1,0 +1,14 @@
+$success : #4BB543;
+
+.pagination > li > a:hover{
+    color: $success;
+}
+
+.pagination > li > a{
+    color: black;
+}
+
+.page-item.active .page-link{
+    background-color: $success;
+    border-color: $success;
+}
