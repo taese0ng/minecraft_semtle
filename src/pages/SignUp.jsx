@@ -138,17 +138,17 @@ function SignUp(){
             <Container className="mt-4">
                 <Row className="justify-content-center">
                     <Col xs="auto">
-                        <h1>계정 등록</h1>
+                        <h1>Sign Up</h1>
                     </Col>
                 </Row>
-                <Form>
+                <Form className="mt-5">
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>
-                            <h3>이메일 주소</h3>
+                            <h3>Email Address</h3>
                         </Form.Label>
                         <Form.Row>
                             <Col md={5}>
-                                <Form.Control size="lg" type="email" placeholder="이메일" onChange={inputEmail}/>
+                                <Form.Control size="lg" type="email" placeholder="Email" onChange={inputEmail}/>
                             </Col>
                             <Col md={4} className='mt-2 mt-md-0'>
                                 <InputGroup size="lg">
@@ -163,7 +163,8 @@ function SignUp(){
                                 variant="outline-primary" 
                                 size="lg" 
                                 block
-                                onClick={sendCode}>인증번호 받기
+                                onClick={sendCode}>
+                                    accept
                                 </Button>
                             </Col>
                         </Form.Row>
@@ -171,17 +172,17 @@ function SignUp(){
 
                     <Form.Group controlId="formBasicPassword">
                         <Form.Label>
-                            <h3>인증번호 확인</h3>
+                            <h3>Confirm Code</h3>
                         </Form.Label>
                         <Form.Row>
                             <Col xs={10} md={6}>
-                                <Form.Control type="number" placeholder="인증번호" size="lg" onChange={inputEmailCode}/>
+                                <Form.Control type="number" placeholder="Verification Code" size="lg" onChange={inputEmailCode}/>
                             </Col>
                             <Col xs={2} className='my-auto text-center'>
                                 <h5>{timeOut}</h5>
                             </Col>
                             <Col xs={12} md={4} className="mt-2 mt-md-0">
-                                <Button variant="outline-primary" size="lg" block onClick={confirmCode}>인증번호 확인</Button>
+                                <Button variant="outline-primary" size="lg" block onClick={confirmCode}>Confirm</Button>
                             </Col>
                         </Form.Row>
                     </Form.Group>
@@ -189,14 +190,14 @@ function SignUp(){
                     <Collapse in={confirmEmail}>
                         <Form.Group controlId="formBasicPassword">
                             <Form.Label>
-                                <h3>마인크래프트 닉네임</h3>
+                                <h3>Minecraft NickName</h3>
                             </Form.Label>
-                            <Form.Control type="text" placeholder="닉네임" size="lg" onChange={inputNickName}/>
+                            <Form.Control type="text" placeholder="NickName" size="lg" onChange={inputNickName}/>
                         </Form.Group>
                     </Collapse>
 
                     <Button variant="outline-success" size="lg" block onClick={clickSignUp}>
-                        등록하기
+                        Sign Up
                     </Button>
                 </Form>
             </Container>

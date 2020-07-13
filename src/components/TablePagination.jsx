@@ -8,6 +8,7 @@ function TablePagination(props){
     useEffect(()=>{
         const pagiNum = parseInt(props.num/10);
         const active = 2;
+        setItems([]);
         for(let i=1; i<=pagiNum && i<=10; i++){
             setItems(items=>[...items,
                 <Pagination.Item key={i} active={i===active}>
