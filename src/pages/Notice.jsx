@@ -14,7 +14,7 @@ function Notice(){
         if(admin === 7){
             console.log("admin")
             history.push({
-                pathname: '/writerAdmin',
+                pathname: '/admin/login',
                 state:{
 
                 }
