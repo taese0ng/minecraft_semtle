@@ -1,7 +1,8 @@
 import React,{useState} from 'react';
 import {Form, Button, Container,Row, Col, InputGroup, FormControl,Collapse} from 'react-bootstrap';
+import {useHistory} from 'react-router';
 import PublicModal from '../components/PublicModal';
-import axios from 'axios'
+import axios from 'axios';
 import {ip} from '../key.js';
 
 function SignUp(){
@@ -14,6 +15,7 @@ function SignUp(){
     const [modalBody, setModalBody] = useState('');
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
+    const history = useHistory();
 
     function inputEmail(e){
         setEmail(e.target.value);
@@ -31,7 +33,7 @@ function SignUp(){
     }
 
     function confirmCode(){
-        axios.post(`${ip}/input-code`,{
+        axios.post(`${ip}/access/input-code`,{
             code: emailCode,
             email: email+"@kumoh.ac.kr"
         }).then(res=>{
@@ -57,17 +59,16 @@ function SignUp(){
     }
 
     function sendCode(){
-        axios.post(`${ip}/mail-send`,
+        axios.post(`${ip}/access/mail-send`,
         {
             email : email+'@kumoh.ac.kr'
         }).then(res=>{
             console.log(res);
             if(res.data.status === "success"){
-                // let time = parseInt(res.data.counter) * 60;
+                let time = parseInt(res.data.counter) * 60;
                 setModalTitle("인증번호 발송 성공!");
                 setModalBody("이메일에 인증번호를 전송하였습니다. 인증하세요!");
                 setShow(true);
-                let time = 6
                 var startTime = setInterval(function(){
                     if(time===0){
                         clearInterval(startTime);
@@ -104,7 +105,7 @@ function SignUp(){
             setShow(true);
         }
         else{
-            axios.post(`${ip}/input-nick`,{
+            axios.post(`${ip}/access/input-nick`,{
                 email: email+"@kumoh.ac.kr",
                 nick: nickName
             }).then(res=>{
@@ -113,6 +114,12 @@ function SignUp(){
                     setModalTitle("등록 성공!");
                     setModalBody("계정 등록에 성공하였습니다! 즐거운 플레이하세요!");
                     setShow(true);
+                    history.push({
+                        pathname: '/',
+                        state:{
+        
+                        }
+                    })  
                 }
                 else{
                     setModalTitle("등록 실패!");
