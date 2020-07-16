@@ -3,6 +3,7 @@ import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import {ip} from '../key.js';
 import PublicModal from '../components/PublicModal';
+import {useHistory} from 'react-router';
 
 function WriterAdmin(){
     const [title, setTitle] = useState('');
@@ -12,6 +13,7 @@ function WriterAdmin(){
     const [modalBody, setModalBody] = useState('');
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
+    const history = useHistory();
 
     function writeTitle(e){
         setTitle(e.target.value);
@@ -56,11 +58,13 @@ function WriterAdmin(){
         const fileName = getFileName(nowDate);
         const date = getFormatDate(nowDate);
         var formData = new FormData();
-        formData.append("img", image);
+        
         formData.append("title", title);
         formData.append("contents", contents);
         formData.append("fileName", fileName);
         formData.append("date", date);
+        formData.append("img", image);
+
         axios.post(`${ip}/notice/input`,formData,{
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -68,10 +72,17 @@ function WriterAdmin(){
         }).then(res=>{
             console.log(res)
             if(res.data.status === "success"){
+                history.push({
+                    pathname: '/',
+                    state:{
 
+                    }
+                }) 
             }
             else{
-
+                setModalTitle("작성 오류!");
+                setModalBody("공지사항 작성에 오류가 발생하였습니다. 다시 시도하세요.");
+                setShow(true);
             }
         }).catch(err=>console.log(err))
     }
@@ -111,7 +122,7 @@ function WriterAdmin(){
                                 </Form.Row>
                                 <Form.Row className="justify-content-center">
                                     <Col>
-                                        <Form.Control 
+                                        <Form.Control
                                         onChange={writeContents}
                                         as="textarea" 
                                         rows="10"

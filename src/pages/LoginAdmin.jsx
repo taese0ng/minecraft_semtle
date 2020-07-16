@@ -66,7 +66,7 @@ function LoginAdmin(){
                         <Form>
                             <Form.Group>
                                 <Form.Row className="justify-content-center">
-                                    <Col xs={1} className="text-center">
+                                    <Col xs={2} className="text-center">
                                         <Form.Label>
                                             <h2>ID</h2>
                                         </Form.Label>
@@ -77,7 +77,7 @@ function LoginAdmin(){
                                 </Form.Row>
 
                                 <Form.Row className="justify-content-center">
-                                    <Col xs={1}>
+                                    <Col xs={2}>
                                         <Form.Label>
                                             <h2>P/W</h2>
                                         </Form.Label>
@@ -88,7 +88,7 @@ function LoginAdmin(){
                                 </Form.Row>
 
                                 <Form.Row className="justify-content-center">
-                                    <Col xs={6}>
+                                    <Col xs={7}>
                                         <Button 
                                         variant="success"
                                         block
