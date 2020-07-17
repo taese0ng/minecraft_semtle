@@ -1,18 +1,35 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import { Container, Row, Col, Table } from 'react-bootstrap';
 import {TablePagination} from '../components';
-import { Link } from 'react-router-dom';
-import {useHistory} from 'react-router';
+import {useHistory, useParams} from 'react-router';
+import axios from 'axios';
+import { ip } from '../key.js';
 
 function Notice(){
     const [admin, setAdmin] = useState(1);
+    const [notices, setNotices] = useState([]);
     const history = useHistory();
+    const {page} = useParams();
+    const [pagiNum, setPagiNum] = useState(1);
+
+    useEffect(()=>{
+        axios.get(`${ip}/notice/show/${parseInt(page)+1}`)
+        .then(res=>{
+            // console.log(res.data.notices);
+            if(res.data.status==="success"){
+                setNotices(res.data.notices);
+                setPagiNum(res.data.count);
+            }else{
+                console.log("Notice Fail");
+            }
+        }).catch(err=>console.log(err));
+    },[page])
 
     function adminPage(){
         setAdmin(admin+1);
-        console.log(admin);
+        // console.log(pagiNum);
         if(admin === 7){
-            console.log("admin")
+            // console.log("admin")
             history.push({
                 pathname: '/admin/login',
                 state:{
@@ -20,6 +37,24 @@ function Notice(){
                 }
             })
         }
+    }
+
+    function enterNotice(id){
+        history.push({
+            pathname: `/notice/detail/id=${id}`,
+            state:{
+
+            }
+        })
+    }
+
+    function chagePage(pageNum){
+        history.push({
+            pathname: `/notice/page=${pageNum}`,
+            state:{
+
+            }
+        })
     }
 
     return(
@@ -46,75 +81,26 @@ function Notice(){
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>
-                                <Link style={{ textDecoration:'none' }} to="/notice/noticeDetail">
-                                    KUMO CRAFT 서버 오픈하였습니다.
-                                </Link>
-                            </td>
-                            <td>관리자</td>
-                            <td>2020.07.12</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>KUMO CRAFT 서버 오픈하였습니다.</td>
-                            <td>관리자</td>
-                            <td>2020.07.12</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>KUMO CRAFT 서버 오픈하였습니다.</td>
-                            <td>관리자</td>
-                            <td>2020.07.12</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>KUMO CRAFT 서버 오픈하였습니다.</td>
-                            <td>관리자</td>
-                            <td>2020.07.12</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>KUMO CRAFT 서버 오픈하였습니다.</td>
-                            <td>관리자</td>
-                            <td>2020.07.12</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>KUMO CRAFT 서버 오픈하였습니다.</td>
-                            <td>관리자</td>
-                            <td>2020.07.12</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>KUMO CRAFT 서버 오픈하였습니다.</td>
-                            <td>관리자</td>
-                            <td>2020.07.12</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>KUMO CRAFT 서버 오픈하였습니다.</td>
-                            <td>관리자</td>
-                            <td>2020.07.12</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>KUMO CRAFT 서버 오픈하였습니다.</td>
-                            <td>관리자</td>
-                            <td>2020.07.12</td>
-                        </tr>
-                        <tr>
-                            <td>10</td>
-                            <td>KUMO CRAFT 서버 오픈하였습니다.</td>
-                            <td>관리자</td>
-                            <td>2020.07.12</td>
-                        </tr>
+                        {notices.map((notice)=>(
+                            <tr key={notice.num}>
+                                <td>{notice.num}</td>
+                                <td 
+                                style={{ cursor:'pointer' }}
+                                onClick={()=>enterNotice(notice._id)}>
+                                    {notice.title}
+                                </td>
+                                <td>{notice.writer}</td>
+                                <td>{notice.date}</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </Table>
             </Row>
             <Row className="justify-content-center">
-                <TablePagination num="150"/>
+                <TablePagination 
+                activePage ={page}
+                changePage={chagePage}
+                num={pagiNum}/>
             </Row>
         </Container>
     )

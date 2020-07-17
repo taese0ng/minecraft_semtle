@@ -22,12 +22,14 @@ function MainPage(){
             </Row>
             <Row className="justify-content-center">
                 <Col xs={11} md={5} className="mb-2 mb-md-0">
-                    <Link style={{ textDecoration:'none'}} className='Link' to="/signup">
+                    <Link style={{ textDecoration:'none'}} 
+                    className='Link' to="/signup">
                         <Button variant="success" block size="lg">Sign Up</Button>
                     </Link>
                 </Col>
                 <Col xs={11} md={5}>
-                    <Link style={{ textDecoration:'none'}} to="/notice">
+                    <Link style={{ textDecoration:'none'}} 
+                    to={`/notice/page=0`}>
                         <Button variant="warning" block size="lg">Notice</Button>
                     </Link>
                 </Col>

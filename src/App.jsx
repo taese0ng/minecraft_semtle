@@ -11,8 +11,8 @@ function App() {
       <BackGround/>
       <Route exact path="/" render={()=>  <ContentsBody page={MainPage} />} />
       <Route exact path="/signup" render={() => <ContentsBody page={SignUp} />} />
-      <Route exact path="/notice" render={() => <ContentsBody page={Notice} />} />
-      <Route exact path="/notice/noticeDetail" render={() => <ContentsBody page={NoticeDetail} />} />
+      <Route exact path="/notice/page=:page" render={() => <ContentsBody page={Notice} />} />
+      <Route exact path="/notice/detail/id=:id" render={() => <ContentsBody page={NoticeDetail} />} />
       <Route exact path="/admin/write" render={() => <ContentsBody page={WriterAdmin}/>} />
       <Route exact path="/admin/login" render={() => <ContentsBody page={LoginAdmin}/>} />
     </Router>
