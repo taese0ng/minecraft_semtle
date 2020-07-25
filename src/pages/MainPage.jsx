@@ -7,8 +7,11 @@ function MainPage(){
     return(
         <Container className="mt-4">
             <Row className="justify-content-center">
-                <Col xs="auto">
-                    <h1>KUMO CRAFT</h1>
+                <Col className="text-center text-sm-right" xs={12} sm={6}>
+                    <h1>KUMO</h1>
+                </Col>
+                <Col className="text-center text-sm-left" xs={12} sm={6}>
+                    <h1>CRAFT</h1>
                 </Col>
             </Row>
             <Row className="justify-content-center mt-5">
@@ -20,7 +23,7 @@ function MainPage(){
                     </Figure>
                 </Col>
             </Row>
-            <Row className="justify-content-center">
+            <Row className="justify-content-center mb-5">
                 <Col xs={11} md={5} className="mb-2 mb-md-0">
                     <Link style={{ textDecoration:'none'}} 
                     className='Link' to="/signup">

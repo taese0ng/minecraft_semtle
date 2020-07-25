@@ -4,14 +4,23 @@ import '../scss/TablePagination.scss';
 
 function TablePagination(props){
     const [items, setItems] = useState([]);
+    const [width, setWidth] = useState(window.innerWidth);
 
     useEffect(()=>{
+        const handleResize = () => setWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+        let division = 10;
+        if (width >= 700){
+            division = 10;
+        }
+        else{
+            division=5;
+        }
         const pagiNum = Math.ceil(props.num/10);
-        let startNum = parseInt(props.activePage/10);
-
+        let startNum = parseInt(props.activePage/division);
         setItems([]);
-        for(let i=(startNum*10), cnt=0;
-         i<pagiNum && cnt!==10; i++){
+        for(let i=(startNum*division), cnt=0;
+         i<pagiNum && cnt!==division; i++){
             cnt++;
             setItems(items=>[...items,
                 <Pagination.Item 
@@ -22,7 +31,10 @@ function TablePagination(props){
                 </Pagination.Item>
             ])
         };
-    },[props]);
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    },[props,width]);
 
     function nextPagi(){
         let nowPage = parseInt(props.activePage);
@@ -48,7 +60,7 @@ function TablePagination(props){
     }
 
     return(
-        <Pagination className="my-auto">
+        <Pagination className="my-auto justify-content-center">
             <Pagination.First
             onClick={prevFirst}/>
             <Pagination.Prev

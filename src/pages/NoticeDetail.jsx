@@ -67,7 +67,7 @@ function NoticeDetail(){
                 </Col>
             </Row>
 
-            <Row className="justify-content-center mt-4">
+            <Row className="justify-content-center mt-4 mb-5">
                 <Col xs="12">
                     <Button
                     onClick={toTheBack}

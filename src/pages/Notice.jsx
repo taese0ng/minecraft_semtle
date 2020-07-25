@@ -64,43 +64,47 @@ function Notice(){
                     <h1>Notice</h1>
                 </Col>
             </Row>
-            <Row className="mt-5">
-                <Table 
-                striped 
-                bordered 
-                hover 
-                variant="light" 
-                size="sm" 
-                className="text-center">
-                    <thead className="bg-success text-white">
-                        <tr>
-                            <th>No.</th>
-                            <th>Title</th>
-                            <th onClick={adminPage}>Writer</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {notices.map((notice)=>(
-                            <tr key={notice.num}>
-                                <td>{notice.num}</td>
-                                <td 
-                                style={{ cursor:'pointer' }}
-                                onClick={()=>enterNotice(notice._id)}>
-                                    {notice.title}
-                                </td>
-                                <td>{notice.writer}</td>
-                                <td>{notice.date}</td>
+            <Row className="mt-5 justify-content-center">
+                <Col xs={12}>
+                    <Table 
+                    striped 
+                    bordered 
+                    hover 
+                    variant="light" 
+                    size="sm" 
+                    className="text-center">
+                        <thead className="bg-success text-white">
+                            <tr>
+                                <th>No.</th>
+                                <th>Title</th>
+                                <th onClick={adminPage}>Writer</th>
+                                <th>Date</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </Table>
+                        </thead>
+                        <tbody>
+                            {notices.map((notice)=>(
+                                <tr key={notice.num}>
+                                    <td>{notice.num}</td>
+                                    <td 
+                                    style={{ cursor:'pointer' }}
+                                    onClick={()=>enterNotice(notice._id)}>
+                                        {notice.title}
+                                    </td>
+                                    <td>{notice.writer}</td>
+                                    <td>{notice.date}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                </Col>
             </Row>
-            <Row className="justify-content-center">
-                <TablePagination 
-                activePage ={page}
-                changePage={chagePage}
-                num={pagiNum}/>
+            <Row className="justify-content-center mb-5">
+                <Col className="jusify-content-center">
+                    <TablePagination 
+                    activePage ={page}
+                    changePage={chagePage}
+                    num={pagiNum}/>
+                </Col>
             </Row>
         </Container>
     )

@@ -56,8 +56,11 @@ function LoginAdmin(){
                     body={modalBody}/>
             <Container className="mt-4">
                 <Row className="justify-content-center">
-                    <Col xs="auto">
-                        <h1>Admin Login</h1>
+                    <Col xs={12} sm={6} className="text-center text-sm-right">
+                        <h1>Admin</h1>
+                    </Col>
+                    <Col xs={12} sm={6} className="text-center text-sm-left">
+                        <h1>Login</h1>
                     </Col>
                 </Row>
 
@@ -66,23 +69,23 @@ function LoginAdmin(){
                         <Form>
                             <Form.Group>
                                 <Form.Row className="justify-content-center">
-                                    <Col xs={2} className="text-center">
+                                    <Col xs={3} sm={2} className="text-right">
                                         <Form.Label>
                                             <h2>ID</h2>
                                         </Form.Label>
                                     </Col>
-                                    <Col xs={5}>
+                                    <Col xs={9} sm={7}>
                                         <Form.Control placeholder="ID" onChange={inputID}/>
                                     </Col>
                                 </Form.Row>
 
                                 <Form.Row className="justify-content-center">
-                                    <Col xs={2}>
+                                    <Col xs={3} sm={2} className="text-right">
                                         <Form.Label>
                                             <h2>P/W</h2>
                                         </Form.Label>
                                     </Col>
-                                    <Col xs={5}>
+                                    <Col xs={9} sm={7}>
                                         <Form.Control type="password" placeholder="P/W" onChange={inputPW}/>
                                     </Col>
                                 </Form.Row>

@@ -6,10 +6,11 @@ import HomeBtnImage from '../assets/HomeBtn.png';
 function HomeBtn(){
     return(
         <Link style={{ textDecoration:'none' }} to="/">
-            <Button 
+            <Button
+            style={{zIndex:'999'}}
             variant="warning" 
             size="lg"
-            className="position-absolute m-3 z-index-3 p-1">
+            className="position-absolute m-3 p-1 z4">
                 <img src={HomeBtnImage} alt="HomeBtn" width="40" height="50"/>
             </Button>
         </Link>

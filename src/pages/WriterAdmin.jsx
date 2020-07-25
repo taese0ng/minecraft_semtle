@@ -96,17 +96,20 @@ function WriterAdmin(){
                     body={modalBody}/>
             <Container>
                 <Row className="justify-content-center mt-4">
-                    <Col xs="auto">
-                        <h1>Admin Write</h1>
+                    <Col xs={12} sm={6} className="text-center text-sm-right">
+                        <h1>Admin</h1>
+                    </Col>
+                    <Col xs={12} sm={6} className="text-center text-sm-left">
+                        <h1>Write</h1>
                     </Col>
                 </Row>
-                <Row className="mt-4">
+                <Row className="mt-4 mb-5">
                     <Col>
                         <Form>
                             <Form.Group>
                                 <Form.Row>
-                                    <Col xs={2}>
-                                        <h2 className="text-center">Title : </h2>
+                                    <Col xs={12} className="text-left">
+                                        <h2>Title</h2>
                                     </Col>
                                     <Col>
                                         <Form.Control onChange={writeTitle}/>                            

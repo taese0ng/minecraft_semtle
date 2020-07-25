@@ -203,7 +203,7 @@ function SignUp(){
                         </Form.Group>
                     </Collapse>
 
-                    <Button variant="outline-success" size="lg" block onClick={clickSignUp}>
+                    <Button className="mb-5" variant="outline-success" size="lg" block onClick={clickSignUp}>
                         Sign Up
                     </Button>
                 </Form>
