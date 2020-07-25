@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import { Container, Row, Col, Button, Figure } from 'react-bootstrap';
-import image1 from '../assets/image1.png';
+import mainImage from '../assets/mainImage.png';
 
 function MainPage(){
     return(
@@ -19,7 +19,7 @@ function MainPage(){
                     <Figure>
                         <Figure.Image
                             alt="minCraftImage"
-                            src={image1}/>
+                            src={mainImage}/>
                     </Figure>
                 </Col>
             </Row>
