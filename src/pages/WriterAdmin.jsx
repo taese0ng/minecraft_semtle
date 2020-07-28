@@ -3,7 +3,7 @@ import { Container, Row, Col, Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import {ip} from '../key.js';
 import PublicModal from '../components/PublicModal';
-import {useHistory} from 'react-router';
+import { useHistory } from 'react-router';
 
 function WriterAdmin(){
     const [title, setTitle] = useState('');
@@ -12,8 +12,28 @@ function WriterAdmin(){
     const [modalTitle, setModalTitle] = useState('');
     const [modalBody, setModalBody] = useState('');
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const [status, setStatus] = useState("");
     const history = useHistory();
+    const handleClose = (status) => {
+        setShow(false);
+        if(status === "success"){
+            history.push({
+                pathname: '/',
+                state:{
+
+                }
+            })
+        }
+        else if(status === "tokenExpired"){
+            history.push({
+                pathname: '/admin/login',
+                state:{
+
+                }
+            })
+        }
+    }
+    
 
     function writeTitle(e){
         setTitle(e.target.value);
@@ -64,20 +84,25 @@ function WriterAdmin(){
         formData.append("fileName", fileName);
         formData.append("date", date);
         formData.append("img", image);
-
+        console.log(sessionStorage.getItem('token'))
         axios.post(`${ip}/notice/input`,formData,{
             headers: {
+                'token': sessionStorage.getItem('token'), 
                 'Content-Type': 'multipart/form-data'
             }
         }).then(res=>{
-            console.log(res)
+            // console.log(res)
             if(res.data.status === "success"){
-                history.push({
-                    pathname: '/',
-                    state:{
-
-                    }
-                }) 
+                setModalTitle("작성 성공!");
+                setModalBody("공지사항 작성에 성공하였습니다!");
+                setShow(true);
+                setStatus("success")
+            }
+            else if(res.data.status === "tokenExpired"){
+                setModalTitle("토큰 오류!");
+                setModalBody("관리자 토큰의 유효기간이 만료되었습니다. 로그인을 다시해주세요.");
+                setShow(true);
+                setStatus("tokenExpired")
             }
             else{
                 setModalTitle("작성 오류!");
@@ -90,10 +115,10 @@ function WriterAdmin(){
     return(
         <>
             <PublicModal
-                    close={handleClose} 
-                    show={show} 
-                    title={modalTitle}
-                    body={modalBody}/>
+                close={()=>handleClose(status)} 
+                show={show} 
+                title={modalTitle}
+                body={modalBody}/>
             <Container>
                 <Row className="justify-content-center mt-4">
                     <Col xs={12} sm={6} className="text-center text-sm-right">

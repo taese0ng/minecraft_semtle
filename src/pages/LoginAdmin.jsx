@@ -27,8 +27,9 @@ function LoginAdmin(){
             id: id,
             pw: pw
         }).then(res=>{
-            console.log(res);
+            // console.log(res);
             if(res.data.status === "success"){
+                sessionStorage.setItem("token", res.data.token)
                 history.push({
                     pathname: '/admin/write',
                     state:{

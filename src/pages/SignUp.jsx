@@ -5,6 +5,7 @@ import PublicModal from '../components/PublicModal';
 import axios from 'axios';
 import {ip} from '../key.js';
 
+var startTime
 function SignUp(){
     const [timeOut, setTimeOut] = useState('00:00');
     const [email, setEmail] = useState('');
@@ -14,8 +15,20 @@ function SignUp(){
     const [modalTitle, setModalTitle] = useState('');
     const [modalBody, setModalBody] = useState('');
     const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
+    const [status, setStatus] = useState("");
     const history = useHistory();
+    const handleClose = (status) => {
+        setShow(false);
+        if(status === "success"){
+            history.push({
+                pathname: '/notice/page=0',
+                state:{
+
+                }
+            })
+        }
+    }
+    
 
     function inputEmail(e){
         setEmail(e.target.value);
@@ -37,12 +50,13 @@ function SignUp(){
             code: emailCode,
             email: email+"@kumoh.ac.kr"
         }).then(res=>{
-            console.log(res);
+            // console.log(res);
             if(res.data.status==="success"){
                 setConfirmEmail(true);
                 setModalTitle("인증 성공!");
                 setModalBody("인증번호 인증에 성공하였습니다. 닉네임을 설정해주세요!");
                 setShow(true);
+                clearInterval(startTime)
             }
             else{
                 setConfirmEmail(false);
@@ -63,13 +77,13 @@ function SignUp(){
         {
             email : email+'@kumoh.ac.kr'
         }).then(res=>{
-            console.log(res);
+            // console.log(res);
             if(res.data.status === "success"){
                 let time = parseInt(res.data.counter) * 60;
                 setModalTitle("인증번호 발송 성공!");
                 setModalBody("이메일에 인증번호를 전송하였습니다. 인증하세요!");
                 setShow(true);
-                var startTime = setInterval(function(){
+                startTime = setInterval(function(){
                     if(time===0){
                         clearInterval(startTime);
                         setModalTitle("인증시간 초과!");
@@ -109,17 +123,12 @@ function SignUp(){
                 email: email+"@kumoh.ac.kr",
                 nick: nickName
             }).then(res=>{
-                console.log(res);
+                // console.log(res);
                 if(res.data.status === "success"){
                     setModalTitle("등록 성공!");
                     setModalBody("계정 등록에 성공하였습니다! 즐거운 플레이하세요!");
                     setShow(true);
-                    history.push({
-                        pathname: '/',
-                        state:{
-        
-                        }
-                    })  
+                    setStatus("success")
                 }
                 else{
                     setModalTitle("등록 실패!");
@@ -138,7 +147,7 @@ function SignUp(){
     return(
         <>
             <PublicModal
-                close={handleClose} 
+                close={()=>handleClose(status)} 
                 show={show} 
                 title={modalTitle}
                 body={modalBody}/>

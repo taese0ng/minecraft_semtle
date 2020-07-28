@@ -28,14 +28,35 @@ function Notice(){
     function adminPage(){
         setAdmin(admin+1);
         // console.log(pagiNum);
-        if(admin === 7){
+        if(admin >= 7){
             // console.log("admin")
-            history.push({
-                pathname: '/admin/login',
-                state:{
-
+            axios.post(`${ip}/admin/token-check`,null,{
+                headers:{
+                    'token': sessionStorage.getItem('token')
                 }
+            }).then(res=>{
+                // console.log(res)
+                if(res.data.status === "vaildToken"){
+                    history.push({
+                        pathname: '/admin/write',
+                        state:{
+        
+                        }
+                    })
+                }
+                else if(res.data.status === "tokenExpired"){
+                    history.push({
+                        pathname: '/admin/login',
+                        state:{
+        
+                        }
+                    })
+                }
+            }).catch(err => {
+                console.log(err)
             })
+
+            
         }
     }
 

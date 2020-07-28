@@ -3,6 +3,7 @@ import { Container, Row, Col, Image, Button } from 'react-bootstrap';
 import {useParams, useHistory} from 'react-router';
 import { ip } from '../key.js';
 import axios from 'axios';
+import PublicModal from '../components/PublicModal';
 
 function NoticeDetail(){
     const [notice, setNotice] = useState({
@@ -14,12 +15,36 @@ function NoticeDetail(){
     });
     const {id}=useParams();
     const history = useHistory();
+    const [delNum, setDelNum] = useState(1);
+    const [modalTitle, setModalTitle] = useState('');
+    const [modalBody, setModalBody] = useState('');
+    const [show, setShow] = useState(false);
+    const [status, setStatus] = useState("");
+    const handleClose = (status) => {
+        setShow(false);
+        if(status === "success"){
+            history.push({
+                pathname: '/',
+                state:{
+
+                }
+            })
+        }
+        else if(status === "tokenExpired"){
+            history.push({
+                pathname: '/admin/login',
+                state:{
+
+                }
+            })
+        }
+    }
 
     useEffect(()=>{
         console.log("NoticeDetail")
         axios.get(`${ip}/notice/detail/${id}`)
         .then(res=>{
-            console.log(res);
+            // console.log(res);
             if(res.data.status === "success"){
                 setNotice(res.data.notice);
             }
@@ -33,7 +58,48 @@ function NoticeDetail(){
         history.goBack();
     }
 
+    function deleteContents(){
+        setDelNum(delNum+1);
+        // console.log(delNum)
+        
+        if(delNum >= 7){
+            // console.log("Yes")
+            axios.delete(`${ip}/notice/delete`,
+            {
+                data:{
+                    noticeID: id
+                },
+                headers:{
+                    'token': sessionStorage.getItem('token')
+                }
+            }).then(res=>{
+                // console.log(res)
+                if(res.data.status === "success"){
+                    setModalTitle("삭제 완료!");
+                    setModalBody("게시물이 삭제가 완료되었습니다.");
+                    setShow(true);
+                    setStatus("success");
+                    
+                }else if(res.data.status === "tokenExpired"){
+                    setModalTitle("토큰 오류!");
+                    setModalBody("관리자 토큰의 유효기간이 만료되었습니다. 로그인을 다시해주세요.");
+                    setShow(true);
+                    setStatus("tokenExpired")
+                    
+                }
+            }).catch(err=>{
+                console.log(err)
+            })
+        }
+    }
+
     return(
+        <>
+        <PublicModal
+            close={()=>handleClose(status)} 
+            show={show} 
+            title={modalTitle}
+            body={modalBody}/>
         <Container className="mt-4 h-75">
             <Row className="justify-content-center">
                 <Col xs="auto">
@@ -46,7 +112,9 @@ function NoticeDetail(){
                     <h4>{notice.writer}</h4>
                 </Col>
                 <Col className="bg-aqua">
-                    <h4 style={{ textAlign:'right' }}>{notice.date}</h4>
+                    <h4 style={{ textAlign:'right' }}>
+                        <span onClick={deleteContents}>{notice.date}</span>
+                        </h4>
                 </Col>
             </Row>
 
@@ -78,6 +146,7 @@ function NoticeDetail(){
                 </Col>
             </Row>
         </Container>
+    </>
     )
 }
 
