@@ -9,7 +9,7 @@ var startTime
 function SignUp(){
     const [timeOut, setTimeOut] = useState('00:00');
     const [email, setEmail] = useState('');
-    const [emailCode, setEmailCode] = useState(null);
+    const [emailCode, setEmailCode] = useState('');
     const [nickName, setNickName] = useState('');
     const [confirmEmail, setConfirmEmail] = useState(false);
     const [modalTitle, setModalTitle] = useState('');
@@ -46,30 +46,37 @@ function SignUp(){
     }
 
     function confirmCode(){
-        axios.post(`${ip}/access/input-code`,{
-            code: emailCode,
-            email: email+"@kumoh.ac.kr"
-        }).then(res=>{
-            // console.log(res);
-            if(res.data.status==="success"){
-                setConfirmEmail(true);
-                setModalTitle("인증 성공!");
-                setModalBody("인증번호 인증에 성공하였습니다. 닉네임을 설정해주세요!");
-                setShow(true);
-                clearInterval(startTime)
-            }
-            else{
+        if(email === "" || emailCode === ""){
+            setModalTitle("입력 오류!");
+            setModalBody("정보를 입력해주세요!");
+            setShow(true);
+        }
+        else{
+            axios.post(`${ip}/access/input-code`,{
+                code: emailCode,
+                email: email+"@kumoh.ac.kr"
+            }).then(res=>{
+                console.log(res);
+                if(res.data.status==="success"){
+                    setConfirmEmail(true);
+                    setModalTitle("인증 성공!");
+                    setModalBody("인증번호 인증에 성공하였습니다. 닉네임을 설정해주세요!");
+                    setShow(true);
+                    clearInterval(startTime)
+                }
+                else{
+                    setConfirmEmail(false);
+                    setNickName('');
+                    setModalTitle("인증 실패!");
+                    setModalBody("인증번호 인증에 실패하였습니다. 입력란을 확인하세요!");
+                    setShow(true);
+                }
+            }).catch(err=>{
+                console.log(err);
                 setConfirmEmail(false);
                 setNickName('');
-                setModalTitle("인증 실패!");
-                setModalBody("인증번호 인증에 실패하였습니다. 입력란을 확인하세요!");
-                setShow(true);
-            }
-        }).catch(err=>{
-            console.log(err);
-            setConfirmEmail(false);
-            setNickName('');
-        });
+            });
+        }
     }
 
     function sendCode(){
@@ -207,6 +214,7 @@ function SignUp(){
                         <Form.Group controlId="formBasicPassword">
                             <Form.Label>
                                 <h3>Minecraft NickName</h3>
+                                <h2 className="text-danger">(실제 마인크래프트 계정을 입력해주세요)</h2>
                             </Form.Label>
                             <Form.Control type="text" placeholder="NickName" size="lg" onChange={inputNickName}/>
                         </Form.Group>
