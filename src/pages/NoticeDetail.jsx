@@ -102,7 +102,7 @@ function NoticeDetail(){
             body={modalBody}/>
         <Container className="mt-4 h-75">
             <Row className="justify-content-center">
-                <Col xs="auto">
+                <Col xs={8} className="text-center">
                     <h1>{notice.title}</h1>
                 </Col>
             </Row>
