@@ -4,6 +4,7 @@ import {useParams, useHistory} from 'react-router';
 import { ip } from '../key.js';
 import axios from 'axios';
 import PublicModal from '../components/PublicModal';
+import ReactMarkdown from 'react-markdown';
 
 function NoticeDetail(){
     const [notice, setNotice] = useState({
@@ -121,7 +122,7 @@ function NoticeDetail(){
             <Row className="justify-content-center h-75">
                 <Col className="h-100">
                     <div className="contents p-3 h-100">
-                        {notice.contents}
+                        <ReactMarkdown source={notice.contents}/>
                         {notice.image !== null && (
                             <div className="text-center">
                                 <Image 
@@ -135,8 +136,8 @@ function NoticeDetail(){
                 </Col>
             </Row>
 
-            <Row className="justify-content-center mt-4 mb-5">
-                <Col xs="12">
+            <Row className="justify-content-center">
+                <Col xs="12" className="my-4">
                     <Button
                     onClick={toTheBack}
                     variant="outline-success" 
